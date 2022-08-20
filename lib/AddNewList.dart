@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:want_todo/datePicker.dart';
+import 'package:intl/intl.dart';
+import 'dart:async';
+
 
 class AddNanisuruPage extends StatefulWidget {
   @override
@@ -11,6 +15,22 @@ class _AddNanisuruState extends State<AddNanisuruPage> {
   final TextEditingController easeOfUseCon = TextEditingController();
   int budget = 0;
   String title = '';
+  DateFormat outputFormat = DateFormat('yyyy-MM-dd');
+  var _labelText = DateTime.now().toString();
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? selected = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2022),
+      lastDate: DateTime(2050),
+    );
+    if (selected != null) {
+      setState(() {
+        _labelText = (DateFormat.yMMMd()).format(selected);
+      });
+    }
+  }
 
   TextFormField buildTextFormFieldPriority(BuildContext context) {
     return TextFormField(
@@ -137,7 +157,7 @@ class _AddNanisuruState extends State<AddNanisuruPage> {
               ),
               Padding(
                 padding:
-                const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                    const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
                 child: Column(
                   children: [
                     const Text(
@@ -151,7 +171,7 @@ class _AddNanisuruState extends State<AddNanisuruPage> {
               ),
               Padding(
                 padding:
-                const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                    const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
                 child: Column(
                   children: [
                     const Text(
@@ -165,7 +185,7 @@ class _AddNanisuruState extends State<AddNanisuruPage> {
               ),
               Padding(
                 padding:
-                const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                    const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
                 child: Column(
                   children: [
                     const Text(
@@ -185,14 +205,24 @@ class _AddNanisuruState extends State<AddNanisuruPage> {
               ),
               Padding(
                 padding:
-                const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                    const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
                 child: Column(
-                  children: const [
-                    Text(
-                      "参加者",
+                  children: [
+                    const Text(
+                      "予定日",
                       style: TextStyle(fontWeight: FontWeight.bold),
                       textAlign: TextAlign.left,
                     ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(_labelText),
+                        IconButton(
+                          icon: Icon(Icons.date_range),
+                          onPressed: () => _selectDate(context),
+                        ),
+                      ],
+                    )
                   ],
                 ),
               ),
