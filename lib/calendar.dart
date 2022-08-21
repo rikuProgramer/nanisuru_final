@@ -68,7 +68,7 @@ class _TableBasicsExampleState extends State<TableBasicsExample> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('TableCalendar - Basics'),
+        title: Text('わくわくカレンダー'),
       ),
       body: Column(
         children: [
@@ -117,13 +117,15 @@ class _TableBasicsExampleState extends State<TableBasicsExample> {
             // Enable week numbers (disabled by default).
             // weekNumbersVisible: true,
           ),
-          ListView(
-            shrinkWrap: true,
-            children: _getEventForDay(_selectedDay!)
-                .map((event) => ListTile(
-              title: Text(event.toString()),
-            ))
-                .toList(),
+          SingleChildScrollView(
+            child: ListView(
+              shrinkWrap: true,
+              children: _getEventForDay(_selectedDay!)
+                  .map((event) => ListTile(
+                title: Text(event.toString()),
+              ))
+                  .toList(),
+          )
           )
         ],
       ),

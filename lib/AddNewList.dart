@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:want_todo/datePicker.dart';
 import 'package:intl/intl.dart';
 import 'dart:async';
 
@@ -15,19 +14,22 @@ class _AddNanisuruState extends State<AddNanisuruPage> {
   final TextEditingController easeOfUseCon = TextEditingController();
   int budget = 0;
   String title = '';
-  DateFormat outputFormat = DateFormat('yyyy-MM-dd');
-  var _labelText = DateTime.now().toString();
+  String date = '';
+  DateFormat outputFormat = DateFormat.MMMEd();
+  var _labelText = ('日付を記録する');
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? selected = await showDatePicker(
       context: context,
+      locale: const Locale("ja"),
       initialDate: DateTime.now(),
       firstDate: DateTime(2022),
       lastDate: DateTime(2050),
     );
     if (selected != null) {
       setState(() {
-        _labelText = (DateFormat.yMMMd()).format(selected);
+        _labelText = DateFormat.MMMEd('ja').format(selected);
+        date = _labelText;
       });
     }
   }
@@ -244,7 +246,8 @@ class _AddNanisuruState extends State<AddNanisuruPage> {
               title,
               priorityCon.text,
               easeOfUseCon.text,
-              budget
+              budget,
+              date,
             ];
 
             if (title != '') {

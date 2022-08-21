@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:intl/date_symbol_data_local.dart';
 import 'AddNewList.dart';
 import 'package:want_todo/AddNewList.dart';
 import 'package:want_todo/NanisuruData.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:want_todo/calendar.dart';
-import 'package:want_todo/homeCard.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 Future<void> main() async {
-  initializeDateFormatting().then((_) =>runApp(MyApp()));
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -23,6 +22,15 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: const WantPage(),
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale("en"),
+        Locale("ja"),
+      ],
     );
   }
 }
@@ -41,6 +49,22 @@ class _WantPageState extends State<WantPage> {
   //データ格納用リスト
   List<NanisuruData> nanisuruList = [];
 
+  void sort() {
+    final List<Map<String, dynamic>> timeStamps = [];
+    timeStamps.sort((a, b) => a['createdAt'].compareTo(b['createdAt']));
+    print(timeStamps);
+  }
+
+  bool _flag = false;
+
+  void _handleCheckbox(bool? e) {
+    if (e != null) {
+      setState(() {
+        _flag = e;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,18 +77,10 @@ class _WantPageState extends State<WantPage> {
           child: ListView.builder(
             itemCount: nanisuruList.length,
             itemBuilder: (context, index) {
-              // NanisuruData nanisuru = nanisuruList[index];
               return Slidable(
                 endActionPane: ActionPane(
                   motion: const DrawerMotion(),
                   children: [
-                    SlidableAction(
-                      onPressed: (value) {},
-                      backgroundColor: Colors.yellowAccent,
-                      foregroundColor: Colors.black,
-                      icon: Icons.check,
-                      label: '完了',
-                    ),
                     SlidableAction(
                       onPressed: (value) {
                         Navigator.push(
@@ -99,31 +115,34 @@ class _WantPageState extends State<WantPage> {
                         ),
                       ],
                     ),
-                    child: Column(
-                      children: [
+                    child: Stack(
+                      children: <Widget>[
                         Card(
                             color: Colors.blue,
                             child: ListTile(
                               title: Text(
-                                nanisuruList[index].title +
-                                    '\n' +
-                                    nanisuruList[index].budget.toString() +
-                                    '円',
+                                '${nanisuruList[index].title}\n${nanisuruList[index].budget}円',
                                 style: const TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 22,
                                     color: Colors.white),
                               ),
                               subtitle: Text(
-                                nanisuruList[index].priorityCon +
-                                    '　/　' +
-                                    nanisuruList[index].easeOfUseCon,
+                                '${nanisuruList[index].priorityCon}　/　${nanisuruList[index].easeOfUseCon}',
                                 style: const TextStyle(
                                   fontSize: 16,
                                   color: Colors.white,
                                 ),
                               ),
                             )),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: Transform.scale(
+                            scale: 1.5,
+                            child: Checkbox(
+                                value: _flag, onChanged: _handleCheckbox),
+                          ),
+                        )
                       ],
                     ),
                   ),
@@ -142,13 +161,6 @@ class _WantPageState extends State<WantPage> {
                   motion: const DrawerMotion(),
                   children: [
                     SlidableAction(
-                      onPressed: (value) {},
-                      backgroundColor: Colors.yellowAccent,
-                      foregroundColor: Colors.black,
-                      icon: Icons.check,
-                      label: '完了',
-                    ),
-                    SlidableAction(
                       onPressed: (value) {
                         Navigator.push(
                             context,
@@ -182,31 +194,34 @@ class _WantPageState extends State<WantPage> {
                         ),
                       ],
                     ),
-                    child: Column(
-                      children: [
+                    child: Stack(
+                      children: <Widget>[
                         Card(
                             color: Colors.blue,
                             child: ListTile(
                               title: Text(
-                                nanisuruList[index].title +
-                                    '\n' +
-                                    nanisuruList[index].budget.toString() +
-                                    '円',
+                                '${nanisuruList[index].title}\n${nanisuruList[index].budget}円',
                                 style: const TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 22,
                                     color: Colors.white),
                               ),
                               subtitle: Text(
-                                nanisuruList[index].priorityCon +
-                                    '　/　' +
-                                    nanisuruList[index].easeOfUseCon,
+                                '${nanisuruList[index].priorityCon}　/　${nanisuruList[index].easeOfUseCon}',
                                 style: const TextStyle(
                                   fontSize: 16,
                                   color: Colors.white,
                                 ),
                               ),
                             )),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: Transform.scale(
+                            scale: 1.5,
+                            child: Checkbox(
+                                value: _flag, onChanged: _handleCheckbox),
+                          ),
+                        )
                       ],
                     ),
                   ),
@@ -252,8 +267,8 @@ class _WantPageState extends State<WantPage> {
             MaterialPageRoute(builder: (context) => AddNanisuruPage()),
           );
           setState(() {
-            nanisuruList.add(
-                NanisuruData(newItem[0], newItem[1], newItem[2], newItem[3]));
+            nanisuruList.add(NanisuruData(
+                newItem[0], newItem[1], newItem[2], newItem[3], newItem[4]));
           });
         },
         child: const Icon(
