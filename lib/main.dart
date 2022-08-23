@@ -230,10 +230,6 @@ class _WantPageState extends State<WantPage> {
             },
           ),
         ),
-        // Container(
-        //   //のちのちここを関数化させたい
-        //   // child:  card(),
-        // ),
       ][currentPageIndex],
       bottomNavigationBar: NavigationBar(
         onDestinationSelected: (int index) {

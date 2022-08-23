@@ -15,7 +15,7 @@ class _AddNanisuruState extends State<AddNanisuruPage> {
   int budget = 0;
   String title = '';
   String date = '';
-  DateFormat outputFormat = DateFormat.MMMEd();
+  // DateFormat outputFormat = DateFormat.yMd();
   var _labelText = ('日付を記録する');
 
   Future<void> _selectDate(BuildContext context) async {
@@ -28,8 +28,13 @@ class _AddNanisuruState extends State<AddNanisuruPage> {
     );
     if (selected != null) {
       setState(() {
+        // _labelText = DateFormat.MMMEd('ja').format(selected);
+        date = DateFormat.yMd().format(selected);
         _labelText = DateFormat.MMMEd('ja').format(selected);
-        date = _labelText;
+        // date = _labelText;
+        print('japanese→' + _labelText);
+        print(date);
+        //_labelTextのほうがユーザに表示される。dateは裏でカレンダーに予定を追加するための変数
       });
     }
   }

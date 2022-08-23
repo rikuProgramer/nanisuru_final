@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:want_todo/NanisuruData.dart';
 import 'dart:collection';
+import 'package:want_todo/main.dart';
 
 class TableBasicsExample extends StatefulWidget {
   @override
@@ -16,6 +18,7 @@ class _TableBasicsExampleState extends State<TableBasicsExample> {
     return key.day * 1000000 + key.month * 10000 + key.year;
   }
 
+
   @override
   void initState() {
     super.initState();
@@ -28,7 +31,7 @@ class _TableBasicsExampleState extends State<TableBasicsExample> {
         'Event A8',
         'Event B8',
         'Event C8',
-        'Event D8'
+
       ],
       DateTime.now().add(Duration(days: 3)):
       Set.from(['Event A9', 'Event A9', 'Event B9']).toList(),
@@ -48,7 +51,7 @@ class _TableBasicsExampleState extends State<TableBasicsExample> {
       DateTime.now().add(Duration(days: 26)): [
         'Event A14',
         'Event B14',
-        'Event C14'
+        'Event C14',
       ],
     };
   }
@@ -132,4 +135,3 @@ class _TableBasicsExampleState extends State<TableBasicsExample> {
     );
   }
 }
-
