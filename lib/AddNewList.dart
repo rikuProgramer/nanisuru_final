@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'dart:async';
+import 'package:want_todo/calendar.dart';
 
 
 class AddNanisuruPage extends StatefulWidget {
@@ -14,7 +15,7 @@ class _AddNanisuruState extends State<AddNanisuruPage> {
   final TextEditingController easeOfUseCon = TextEditingController();
   int budget = 0;
   String title = '';
-  String date = '';
+  DateTime date = DateTime.now();
   // DateFormat outputFormat = DateFormat.yMd();
   var _labelText = ('日付を記録する');
 
@@ -28,8 +29,6 @@ class _AddNanisuruState extends State<AddNanisuruPage> {
     );
     if (selected != null) {
       setState(() {
-        // _labelText = DateFormat.MMMEd('ja').format(selected);
-        date = DateFormat.yMd().format(selected);
         _labelText = DateFormat.MMMEd('ja').format(selected);
         // date = _labelText;
         print('japanese→' + _labelText);
@@ -164,6 +163,49 @@ class _AddNanisuruState extends State<AddNanisuruPage> {
               ),
               Padding(
                 padding:
+                const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                child: Column(
+                  children: [
+                    const Text(
+                      "予定日",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.left,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(_labelText),
+                        IconButton(
+                          icon: Icon(Icons.date_range),
+                          onPressed: () => _selectDate(context),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+              Padding(
+                padding:
+                const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                child: Column(
+                  children: [
+                    const Text(
+                      "予算",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.left,
+                    ),
+                    TextField(
+                      decoration: const InputDecoration(hintText: '記録する'),
+                      keyboardType: TextInputType.number,
+                      onChanged: (String budgetString) {
+                        budget = int.parse(budgetString);
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding:
                     const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
                 child: Column(
                   children: [
@@ -190,49 +232,8 @@ class _AddNanisuruState extends State<AddNanisuruPage> {
                   ],
                 ),
               ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-                child: Column(
-                  children: [
-                    const Text(
-                      "予算",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                      textAlign: TextAlign.left,
-                    ),
-                    TextField(
-                      decoration: const InputDecoration(hintText: '記録する'),
-                      keyboardType: TextInputType.number,
-                      onChanged: (String budgetString) {
-                        budget = int.parse(budgetString);
-                      },
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-                child: Column(
-                  children: [
-                    const Text(
-                      "予定日",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                      textAlign: TextAlign.left,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(_labelText),
-                        IconButton(
-                          icon: Icon(Icons.date_range),
-                          onPressed: () => _selectDate(context),
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-              ),
+
+
               SizedBox(
                 width: double.infinity,
                 child: TextButton(

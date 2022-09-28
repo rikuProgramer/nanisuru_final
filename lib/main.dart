@@ -7,6 +7,7 @@ import 'package:want_todo/calendar.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();   //追加
   runApp(const MyApp());
 }
 
